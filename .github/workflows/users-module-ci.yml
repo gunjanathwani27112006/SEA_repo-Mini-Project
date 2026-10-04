@@ -1,0 +1,36 @@
+name: Users Module CI
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "users/**"
+      - ".github/workflows/users-module-ci.yml"
+
+  pull_request:
+    paths:
+      - "users/**"
+      - ".github/workflows/users-module-ci.yml"
+
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
+      - name: Check PHP syntax in Users module
+        shell: bash
+        run: |
+          set -e
+          find users -type f -name "*.php" -print0 | while IFS= read -r -d '' file
+          do
+            echo "Checking $file"
+            php -l "$file"
+          done
