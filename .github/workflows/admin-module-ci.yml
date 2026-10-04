@@ -2,7 +2,7 @@
 name: Admin Module CI
 
 on:
-  push:s
+  push:
     branches: ["main"]
     paths:
       - "admin/**"
