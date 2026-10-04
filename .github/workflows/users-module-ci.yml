@@ -34,3 +34,12 @@ jobs:
             echo "Checking $file"
             php -l "$file"
           done
+
+      - name: Package Users module
+        run: zip -r users-module.zip users
+
+      - name: Upload Users module artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: users-module
+          path: users-module.zip
