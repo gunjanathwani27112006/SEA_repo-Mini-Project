@@ -1,4 +1,4 @@
-```yaml
+
 name: Admin Module CI
 
 on:
@@ -44,4 +44,4 @@ jobs:
         with:
           name: admin-module
           path: admin-module.zip
-```
+
