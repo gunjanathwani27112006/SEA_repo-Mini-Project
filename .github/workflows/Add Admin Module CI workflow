@@ -1,0 +1,47 @@
+```yaml
+name: Admin Module CI
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "admin/**"
+      - ".github/workflows/admin-module-ci.yml"
+
+  pull_request:
+    paths:
+      - "admin/**"
+      - ".github/workflows/admin-module-ci.yml"
+
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
+      - name: Check PHP syntax in Admin module
+        shell: bash
+        run: |
+          set -euo pipefail
+          find admin -type f -name "*.php" -print0 |
+          while IFS= read -r -d '' file; do
+            echo "Checking $file"
+            php -l "$file"
+          done
+
+      - name: Package Admin module
+        run: zip -r admin-module.zip admin
+
+      - name: Upload Admin module artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-module
+          path: admin-module.zip
+```
